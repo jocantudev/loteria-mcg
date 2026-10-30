@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lotería</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <h1>¡Lotería!</h1>
+    <p>Elige tu tabla y prepárate para jugar.</p>
+  </header>
+
+  <main>
+    <section id="join-section" class="panel">
+      <form id="join-form">
+        <label for="username">Tu nombre</label>
+        <input id="username" maxlength="24" required autocomplete="nickname"
+               placeholder="Ej. Ana">
+        <button type="submit">Entrar</button>
+      </form>
+    </section>
+
+    <p id="message" class="message" role="status" aria-live="polite"></p>
+
+    <section id="game-section" hidden>
+      <section id="selection-view">
+        <h2>Elige tu tabla</h2>
+        <p id="player-status"></p>
+        <div id="boards" class="boards-grid"></div>
+      </section>
+      <section id="playing-view" hidden>
+        <h2>Partida en curso</h2>
+        <section id="player-caller" class="current-card" aria-live="polite"></section>
+        <p id="playing-status" role="status"></p>
+        <div id="player-board" class="player-board-frame"></div>
+        <div class="win-actions">
+          <button id="win-button" type="button">¡Lotería! Ya gané</button>
+          <p id="win-status" role="status"></p>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

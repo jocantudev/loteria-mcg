@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Administración de Lotería</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <h1>Administración</h1>
+    <p>Gestiona jugadores y reservas de la partida.</p>
+  </header>
+
+  <main>
+    <section id="login-section" class="panel">
+      <form id="login-form">
+        <label for="password">Contraseña de administrador</label>
+        <input id="password" type="password" required autocomplete="current-password">
+        <button type="submit">Iniciar sesión</button>
+      </form>
+    </section>
+
+    <section id="admin-section" hidden>
+      <div class="section-heading">
+        <h2>Jugadores</h2>
+        <div>
+          <button id="start-button">Iniciar partida</button>
+          <button id="reset-button" class="danger">Reiniciar partida y liberar tablas</button>
+        </div>
+      </div>
+      <p id="game-status" role="status"></p>
+
+      <section id="caller-section" class="panel caller" hidden>
+        <h2>Cantar cartas</h2>
+        <div class="caller-controls">
+          <button id="draw-button" type="button">Cantar siguiente carta</button>
+          <button id="auto-button" type="button">Iniciar canto automático</button>
+        </div>
+        <p id="caller-status" role="status"></p>
+        <label class="voice-toggle">
+          <input id="voice-toggle" type="checkbox" checked>
+          Voz y chistes
+        </label>
+        <p id="current-joke" class="current-joke" role="status"></p>
+        <div id="current-card" class="current-card"></div>
+        <h3>Cartas cantadas</h3>
+        <ol id="called-cards" class="called-cards"></ol>
+      </section>
+      <h2>Ganadores (orden de aviso)</h2>
+      <ol id="win-claims" class="win-claims"></ol>
+      <p id="no-win-claims">Todavía nadie ha avisado que ganó.</p>
+
+      <div id="players" class="players-list"></div>
+
+      <h2>Tablas</h2>
+      <div id="boards" class="boards-grid"></div>
+    </section>
+
+    <p id="message" class="message" role="status" aria-live="polite"></p>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

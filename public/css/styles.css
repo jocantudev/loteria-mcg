@@ -1,0 +1,246 @@
+:root {
+  color-scheme: light;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #242424;
+  background: #fffaf0;
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.site-header {
+  text-align: center;
+  margin: 1rem 0 2rem;
+}
+
+.site-header h1 {
+  margin-bottom: .35rem;
+  color: #176b45;
+}
+
+main { width: 100%; }
+
+.panel {
+  padding: 1rem;
+  background: white;
+  border: 1px solid #e5dfd2;
+  border-radius: 12px;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .75rem;
+}
+
+label { font-weight: 600; }
+
+input, button {
+  font: inherit;
+  padding: .7rem .9rem;
+  border-radius: 8px;
+}
+
+input {
+  border: 1px solid #aaa;
+  min-width: 200px;
+}
+
+button {
+  border: 0;
+  background: #176b45;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) { filter: brightness(.93); }
+
+button:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+button.danger { background: #a63232; }
+
+.message {
+  min-height: 1.5rem;
+  margin: 1rem 0;
+}
+
+.message.error { color: #a01818; }
+
+.boards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 1rem;
+}
+
+.board-card {
+  min-width: 0;
+  padding: .75rem;
+  background: white;
+  border: 1px solid #ddd5c7;
+  border-radius: 12px;
+}
+
+.board-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: contain;
+  background: #f4f0e6;
+  border-radius: 6px;
+}
+
+.board-card h3 { margin: .75rem 0 .25rem; }
+.board-card p { min-height: 1.5rem; }
+.board-card.occupied { border-color: #c99a9a; background: #fff5f5; }
+.board-card.mine { border-color: #176b45; background: #f0fff6; }
+.board-card.image-missing img { display: none; }
+
+.player-board-frame {
+  position: relative;
+  /* La tabla ocupa hasta el 80% del alto de la ventana sin desbordar el ancho. */
+  --board-ratio: 1702 / 2000;
+  aspect-ratio: var(--board-ratio);
+  width: min(100%, calc(80vh * var(--board-ratio)));
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.player-board-frame > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.player-board-grid {
+  position: absolute;
+  inset: 1.4% 2%;
+  display: grid;
+  grid-template: repeat(4, minmax(0, 1fr)) / repeat(4, minmax(0, 1fr));
+  gap: .7%;
+}
+
+.player-board-cell {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  color: #176b45;
+  font-size: clamp(1.25rem, 5vw, 2.5rem);
+  font-weight: 800;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.player-board-cell:hover { background: rgb(255 255 255 / 22%); }
+
+.player-board-cell.is-marked {
+  border-color: #176b45;
+  background: rgb(40 190 100 / 42%);
+}
+
+.player-board-cell.is-marked::after { content: "✓"; }
+
+.player-board-cell:focus-visible {
+  outline: 3px solid #176b45;
+  outline-offset: -4px;
+}
+
+.win-actions {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.win-claims {
+  margin: 0 0 1.5rem;
+  padding-left: 1.5rem;
+  font-weight: 600;
+}
+
+.current-card {
+  display: grid;
+  justify-items: center;
+  gap: .5rem;
+  margin: 1rem 0;
+}
+
+.current-card img {
+  width: min(100%, 220px);
+  height: auto;
+  border-radius: 8px;
+}
+
+.caller-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+
+.current-joke {
+  min-height: 1.5rem;
+  font-style: italic;
+  text-align: center;
+}
+
+.voice-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin-top: .75rem;
+}
+
+.voice-toggle input { min-width: 0; padding: 0; }
+
+.called-cards {
+  columns: 2 220px;
+  padding-left: 1.5rem;
+}
+
+[hidden] { display: none !important; }
+
+.section-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.players-list {
+  display: grid;
+  gap: .5rem;
+  margin-bottom: 2rem;
+}
+
+.player-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: .75rem;
+  padding: .75rem;
+  background: white;
+  border: 1px solid #ddd5c7;
+  border-radius: 8px;
+}
+
+@media (max-width: 520px) {
+  form { align-items: stretch; }
+  form label { width: 100%; }
+  form input, form button { width: 100%; }
+  .boards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
