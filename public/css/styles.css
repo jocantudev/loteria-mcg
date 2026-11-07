@@ -105,6 +105,21 @@ button.danger { background: #a63232; }
 .board-card.mine { border-color: #176b45; background: #f0fff6; }
 .board-card.image-missing img { display: none; }
 
+.playing-layout {
+  display: grid;
+  grid-template-columns: minmax(0, calc(80vh * 1702 / 2000)) minmax(0, min(25%, 220px));
+  justify-content: center;
+  align-items: start;
+  gap: 1rem;
+}
+
+.playing-layout .current-card {
+  min-width: 0;
+  margin: 0;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
 .player-board-frame {
   position: relative;
   /* La tabla ocupa hasta el 80% del alto de la ventana sin desbordar el ancho. */

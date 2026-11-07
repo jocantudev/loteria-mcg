@@ -4,6 +4,7 @@ const path = require("node:path");
 const { getJoke } = require("./cardJokes");
 
 const CARDS_DIR = path.join(__dirname, "..", "public", "assets", "cartas");
+const BOARDS_DIR = path.join(__dirname, "..", "public", "assets", "tablas");
 
 // Las cartas se leen de la carpeta; el nombre visible sale del nombre del archivo.
 function loadCards() {
@@ -22,7 +23,6 @@ function loadCards() {
       return {
         id: String(index + 1),
         name: name.charAt(0).toUpperCase() + name.slice(1),
-        joke: getJoke(name),
         image: `/assets/cartas/${encodeURIComponent(file)}`,
       };
     });
@@ -37,11 +37,12 @@ const boards = new Map();
 let phase = "selection";
 const winClaims = []; // ids de jugadores en el orden en que reclamaron ganar
 
-// Ajusta el número y los nombres de archivo a tus assets reales.
-const TOTAL_BOARDS = Number(process.env.TOTAL_BOARDS) || 54;
+const TOTAL_BOARDS = Number(process.env.TOTAL_BOARDS) || 25;
+const boardFiles = new Set(fs.readdirSync(BOARDS_DIR));
 
 for (let i = 1; i <= TOTAL_BOARDS; i++) {
   const id = String(i).padStart(2, "0");
+  if (!boardFiles.has(`tabla-${id}.jpg`)) continue;
   boards.set(id, {
     id,
     image: `/assets/tablas/tabla-${id}.jpg`,
@@ -216,7 +217,8 @@ function drawCard() {
   if (phase !== "playing") throw new Error("La partida todavía no ha comenzado.");
   if (!deck.length) throw new Error("Ya se cantaron todas las cartas.");
 
-  calledCards.push(deck.pop());
+  const card = deck.pop();
+  calledCards.push({ ...card, joke: getJoke(card.name) });
   return publicState();
 }
 

@@ -33,18 +33,18 @@ Abre:
 
 ## Assets de tablas
 
-Por defecto se esperan 54 imágenes:
+Por defecto se ofrecen las 25 tablas existentes:
 
 ```text
-public/assets/tablas/tabla-01.png
-public/assets/tablas/tabla-02.png
+public/assets/tablas/tabla-01.jpg
+public/assets/tablas/tabla-02.jpg
 ...
-public/assets/tablas/tabla-54.png
+public/assets/tablas/tabla-25.jpg
 ```
 
-Ajusta `TOTAL_BOARDS` en `.env` si tienes otro número de tablas, por ejemplo `TOTAL_BOARDS=36`. Cambia el código de `src/gameState.js` si los archivos usan nombres distintos.
+Ajusta `TOTAL_BOARDS` en `.env` si quieres cambiar el número máximo de tabla, por ejemplo `TOTAL_BOARDS=36`. Solo se ofrecen las tablas cuyas imágenes existan con ese formato de nombre.
 
-Puedes colocar las imágenes de las cartas individuales en `public/assets/cartas/`; esta versión todavía no implementa el sorteo de cartas.
+Puedes colocar las imágenes de las cartas individuales en `public/assets/cartas/`.
 
 ## Limitaciones importantes
 
@@ -55,7 +55,7 @@ Puedes colocar las imágenes de las cartas individuales en `public/assets/cartas
 - Durante la partida, cada jugador ve únicamente su propia tabla 4×4 y puede marcar o desmarcar sus casillas. Las marcas se conservan en el servidor mientras el proceso siga activo, incluso si el jugador recarga la página; no se comparten con otros jugadores ni sobreviven al reinicio del servidor.
 - Durante la partida, cada jugador puede avisar que ganó (y cancelar el aviso). El administrador ve la lista ordenada según la llegada de los avisos al servidor; los demás jugadores no ven los avisos ajenos. El administrador debe verificar manualmente que la tabla sea ganadora.
 - Al iniciar la partida el servidor baraja las cartas de `public/assets/cartas/` (jpg, png o webp; el nombre sale del archivo) y el administrador las canta sin repetir, una a una o en modo automático (`CALL_INTERVAL_MS`, por defecto 6000 ms, mínimo 2000). Los jugadores ven la carta cantada, pero no se marca nada automáticamente. Reiniciar la partida detiene el canto y vuelve a barajar en el siguiente inicio.
-- Cada carta cantada se pronuncia en voz alta en el panel del administrador, seguida de un chiste fijo definido en `src/cardJokes.js` (las cartas sin chiste usan una frase genérica). La voz usa la síntesis de voz del navegador (voz en español si está disponible), por lo que el administrador debe dejar la pestaña abierta, tener el sonido activado y haber hecho clic en la página; se puede silenciar con «Voz y chistes».
+- Cada carta cantada se pronuncia en voz alta en el panel del administrador, seguida de un chiste elegido al azar de los definidos en `src/cardJokes.js` (las cartas sin chiste usan una frase genérica). El chiste se elige al cantar la carta y se conserva durante la partida. La voz usa la síntesis de voz del navegador (voz en español si está disponible), por lo que el administrador debe dejar la pestaña abierta, tener el sonido activado y haber hecho clic en la página; se puede silenciar con «Voz y chistes».
 - El panel de administración usa una contraseña compartida y un token temporal en memoria. Antes de exponerla públicamente, añade limitación de intentos, HTTPS y una política de seguridad más robusta.
 - Si publicas la app, configura `ADMIN_PASSWORD` como secreto del proveedor; no subas `.env` a Git.
 

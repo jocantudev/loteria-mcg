@@ -1,4 +1,6 @@
-// Chistes estáticos por carta. La clave es el nombre de la carta en minúsculas
+const crypto = require("node:crypto");
+
+// La clave es el nombre de la carta en minúsculas
 // (el nombre del archivo sin el prefijo "lotería-MCG_").
 const jokes = {
   "el timer": "Dice que faltan cinco minutos, pero nadie le cree desde 2019.",
@@ -53,6 +55,59 @@ const jokes = {
   "wifi inestable": "Se va justo cuando ibas a decir algo brillante.",
 };
 
+const additionalJokes = {
+  "el timer": ["Dice que faltan cinco minutos, como el taquero que ya casi te entrega la orden.", "Corre más rápido que uno cuando escucha que ya depositaron la quincena."],
+  "archivos online": ["Están en la nube, pero para encontrarlos hace falta un chamán y tres contraseñas.", "Subí el archivo final y ahora hay más finales que en una telenovela."],
+  "camara apagada": ["Anda en pijama de la cintura para abajo y en modo ejecutivo de la cintura para arriba.", "Dice que se descompuso la cámara, pero el peinado sabe la verdad."],
+  "chat support": ["Le pregunté si ya quedó y me contestó: ahorita joven, ya casi.", "Su respuesta favorita es reinicia el equipo y échale ganas, campeón."],
+  "cloudia paciente": ["Aguanta más preguntas repetidas que abuelita explicando la receta del mole.", "Le pidieron otro cambio de última hora y todavía dijo: sí, con mucho gusto."],
+  "cloudia": ["Anda en la nube, pero bien aterrizada cuando llegan los pendientes.", "No trae paraguas, pero sí respaldo para cuando caiga el aguacero de tickets."],
+  "correo urgente": ["Llegó a las seis y dice para ayer; ni el repartidor de tacos se avienta esa.", "Tiene tantas banderitas rojas que parece desfile, pero nadie lo ha leído."],
+  "cubi potter": ["Con un abracadabra desaparece el pendiente, pero aparece otro en su lugar.", "Quiso convertir la junta en descanso, pero le salió una reunión recurrente."],
+  "cubi sonriente": ["Sonríe aunque el lunes venga con todo y sin café de olla.", "Tiene una sonrisa tan firme que ni la junta de las siete se la quita."],
+  "cubitec chambeador": ["Le entra a la chamba con ganas, aunque el café ya le pidió vacaciones.", "Saca pendientes como salen tortillas del comal: uno tras otro y sin descanso."],
+  "el bug": ["Se esconde más que el último tamal cuando preguntan quién se lo comió.", "En mi máquina sí funciona; en la tuya ya organizó fiesta y rompió todo."],
+  "el cafe": ["Sin cafecito no hay junta, nomás gente mirando al infinito.", "Está tan cargado que ya pidió acceso de administrador."],
+  "el calendario": ["Tiene más cuadros ocupados que mesa de lotería en domingo.", "Me agendó una junta para buscar espacio y agendar otra junta."],
+  "el cliente": ["Pidió algo sencillito y mandó una lista más larga que la cuenta de la taquería.", "Lo quiere para ayer, bonito, barato y que además prepare el café."],
+  "el cursor": ["Anda más perdido que turista buscando la salida del metro.", "Desaparece justo cuando dices: miren, aquí está; qué oportuno el compadre."],
+  "el deadline": ["Anda persiguiéndome más de cerca que el cobrador de la tanda.", "Llegó sin avisar, como visita cuando la casa está hecha un relajo."],
+  "el excel": ["Tiene tantas fórmulas que ya debería cobrar como brujo.", "Le moví a una celda y se desacomodó hasta la lista del súper."],
+  "el meeting productivo": ["Lo vieron una vez, pero nadie alcanzó a tomarle foto.", "Cuando por fin apareció, alguien dijo: ¿y si lo vemos en otra junta?"],
+  "el mentimeter": ["Preguntó cómo estamos y salió una nube con puro necesito vacaciones.", "Pidió una palabra para describir la junta: varios escribieron cafecito."],
+  "el micrófono": ["Lo dejé abierto y toda la junta se enteró de que ya estaban los tamales.", "Cuando quiero hablar se hace el sordo; cuando pido tacos, hasta eco tiene."],
+  "el mouse": ["Corre de pantalla en pantalla como si le debiera a la tanda.", "Le di doble clic y se emocionó tanto que abrió tres ventanas."],
+  "el mute": ["Me aventé el discurso de mi vida y al final me dijeron: estás en mute, compa.", "Es buenísimo guardando secretos, sobre todo cuando quieres contar algo."],
+  "el reinicio": ["Apágalo y préndelo: el equivalente tecnológico de una sobadita.", "Cuando nada funciona, le damos su siestita al equipo y santo remedio."],
+  "el reminder": ["Llega a recordarme el pendiente justo cuando ya me iba por mis taquitos.", "Me manda tantos avisos que ya lo invité al grupo familiar."],
+  "el reporte": ["Lo pidieron con urgencia y ahora descansa tranquilo en una carpeta olvidada.", "Tiene más colores que piñata de posada y menos lectores que instructivo de licuadora."],
+  "el snack": ["Desaparece de la mesa más rápido que los tacos en reunión familiar.", "Una galletita para aguantar la junta y otras cinco para aguantar el pendiente."],
+  "el trabajo bajo presión": ["Con tanta presión ya solo falta que nos sirvan como café espresso.", "Dice que todo es para ayer; yo apenas voy por el desayuno de hoy."],
+  "el trainer": ["Trae pila de sobra, como si desayunara café con café.", "Dice una última dinámica y ya llevamos tres como las últimas tortillas."],
+  "error 404": ["Busqué el archivo y salió por tortillas; todavía no regresa.", "La página se fue de vacaciones y ni dejó recado en el refrigerador."],
+  "la convivencia virtual": ["Cada quien puso botana en su casa y el silencio se conectó primero.", "Hicimos brindis virtual; lo único compartido fue la contraseña del wifi."],
+  "la junta que pudo ser un correo": ["Duró una hora para decir: enterado, gracias y saludos.", "Traía agenda, presentación y hasta despedida, pero el mensaje cabía en un renglón."],
+  "la oficina": ["Vine por la convivencia y terminé saludando al mismo monitor de siempre.", "El café sabe a aventura y la impresora solo trabaja cuando quiere."],
+  "la silla gamer": ["Tiene más luces que puesto de feria, pero igual me recuerda que tengo espalda.", "Parece nave espacial, pero nomás me transporta de una junta a otra."],
+  "la videollamada": ["Todos dicen te escucho perfecto justo antes de quedarse congelados.", "Se congeló mi cara y ahora parezco sorprendido durante toda la junta."],
+  "laptop": ["Se calienta tanto que ya casi podemos ponerle el comal encima.", "Abrió tantas pestañas que ya necesita su propio menú de restaurante."],
+  "las clases nocturnas": ["Uno estudia con ganas y los ojos ya están pidiendo su cobijita.", "El profe pregunta si hay dudas y mi almohada contesta que ya es hora."],
+  "las facturas": ["Llegan más puntuales que la señora de los tamales, pero dan menos alegría.", "En cuanto cae la quincena se forman, como fila para los tacos gratis."],
+  "las ideas": ["Llegan bañándome y se van cuando busco dónde anotarlas.", "Aparecen de madrugada como antojo de tacos: urgentes y difíciles de olvidar."],
+  "las notas": ["Las escribí para no olvidar, ahora solo falta recordar dónde las dejé.", "Tengo notas en tantos lados que necesito una nota para encontrarlas."],
+  "las vacaciones": ["Se pasan más rápido que el carrito de los elotes cuando no traes cambio.", "Uno vuelve bien descansado, hasta que abre el correo y se le baja el encanto."],
+  "los audifonos": ["Me los puse para concentrarme y ahora canto bajito, según yo.", "Son mi letrero de ocupado, aunque por dentro ande escuchando cumbias."],
+  "los mil pendientes": ["Se reproducen solitos, como los recipientes sin tapa en la cocina.", "Terminé uno y aparecieron tres; esto ya parece promoción de mercado."],
+  "los premios": ["Todos levantaron la mano, hasta quien preguntó de qué se trataba.", "Si el premio es una junta extra, mejor pásenle el turno al compañero."],
+  "multitasking": ["Estoy en la junta, contestando correos y buscando dónde dejé mi café.", "Hago tantas cosas a la vez que se me olvida cuál era la primera, compa."],
+  "outlook": ["Tiene más correos sin leer que mensajes el grupo de la familia.", "Me avisa de otra junta justo cuando estaba archivando la invitación anterior."],
+  "power point": ["Le puse tantas animaciones que la presentación ya parece baile de XV años.", "Otra diapositiva y ya alcanzamos a contar la historia desde la Independencia."],
+  "reclutamiento": ["Piden experiencia en todo, nomás les faltó pedir que uno haga buenos tacos.", "Buscan al candidato ideal: que sepa de todo y también encuentre dónde estacionarse."],
+  "teams": ["Sonó una notificación y todos revisamos, como cuando gritan ya llegaron los tacos.", "Tiene tantos chats que ya necesito un mapa y una torta para el camino."],
+  "telegram": ["Mandé un sticker y ya hubo más conversación que en toda la junta.", "En el grupo mandan tantos stickers que ya tienen su propia lotería."],
+  "wifi inestable": ["Se fue y vino más veces que visita buscando dónde estacionarse.", "Cuando voy ganando la discusión se corta; el wifi también quiere opinar."],
+};
+
 const FALLBACK_JOKE = "Esta carta no tiene chiste, pero tiene mucha actitud.";
 
 function normalizeName(name) {
@@ -60,7 +115,10 @@ function normalizeName(name) {
 }
 
 function getJoke(cardName) {
-  return jokes[normalizeName(cardName)] || FALLBACK_JOKE;
+  const name = normalizeName(cardName);
+  if (!jokes[name]) return FALLBACK_JOKE;
+  const options = [jokes[name], ...additionalJokes[name]];
+  return options[crypto.randomInt(options.length)];
 }
 
 module.exports = { getJoke };

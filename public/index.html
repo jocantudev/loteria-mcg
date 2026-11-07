@@ -32,12 +32,14 @@
       </section>
       <section id="playing-view" hidden>
         <h2>Partida en curso</h2>
-        <section id="player-caller" class="current-card" aria-live="polite"></section>
-        <p id="playing-status" role="status"></p>
-        <div id="player-board" class="player-board-frame"></div>
         <div class="win-actions">
           <button id="win-button" type="button">¡Lotería! Ya gané</button>
           <p id="win-status" role="status"></p>
+        </div>
+        <p id="playing-status" role="status"></p>
+        <div class="playing-layout">
+          <div id="player-board" class="player-board-frame"></div>
+          <section id="player-caller" class="current-card" aria-live="polite"></section>
         </div>
       </section>
     </section>
